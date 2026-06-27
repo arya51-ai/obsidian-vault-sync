@@ -33,7 +33,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 HOME     = Path.home()
-SRC_DIR  = HOME / ".claude" / "projects" / "-Users-arya"
+# Claude Code stores sessions under ~/.claude/projects/{path-hash}/ where
+# the hash is the absolute home path with os.sep replaced by '-'.
+# e.g. /Users/arya → -Users-arya. Auto-derived so this works on any machine.
+_home_key = str(HOME).replace(os.sep, '-')
+SRC_DIR  = HOME / ".claude" / "projects" / _home_key
 MEM_SRC  = SRC_DIR / "memory"
 VAULT    = HOME / "ClaudeVault"
 CONV_DIR = VAULT / "Conversations"
